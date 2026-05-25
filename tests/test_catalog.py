@@ -5,9 +5,19 @@ def test_init_product(samsung_product):
     assert samsung_product.quantity == 5
 
 
-def test_init_category(samsung_category, samsung_product):
+def test_init_category(samsung_category):
     assert samsung_category.name == "Смартфоны"
-    assert samsung_category.description == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
-    assert samsung_category.products == [samsung_product]
+    assert samsung_category.description == (
+        "Смартфоны, как средство не только коммуникации,"
+        " но и получения дополнительных функций для удобства жизни"
+    )
+    assert samsung_category.products == [
+        {
+            "name": "Samsung Galaxy C23 Ultra",
+            "description": "256GB, Серый цвет, 200MP камера",
+            "price": 180000.0,
+            "quantity": 5,
+        }
+    ]
     assert samsung_category.product_count == 1
     assert samsung_category.category_count == 1
