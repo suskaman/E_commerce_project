@@ -1,0 +1,3 @@
+[2026-05-25 23:07:53,521] | INFO | utils | utils.py:41 | get_product_from_json() | "START getting list of products from json file"
+[2026-05-25 23:07:53,521] | INFO | utils | utils.py:48 | get_product_from_json() | "open file: ../data/products.json"
+[2026-05-25 23:07:53,521] | INFO | utils | utils.py:67 | get_product_from_json() | "START getting list of products from json file"
