@@ -29,6 +29,14 @@ LOGGING_CONFIG = {
             "encoding": "utf-8",
             "mode": "w",
         },
+        "file_utils": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "file",
+            "filename": "../logs/utils.log",
+            "encoding": "utf-8",
+            "mode": "w",
+        },
         "file_root": {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
@@ -46,6 +54,11 @@ LOGGING_CONFIG = {
             "handlers": ["file_main", "console"],
             "propagate": False,
         },
+        "utils": {
+            "level": "DEBUG",
+            "handlers": ["file_utils", "console"],
+            "propagate": False,
+        }
     },
     "root": {
         "level": "DEBUG",
