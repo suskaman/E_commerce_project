@@ -1,0 +1,6 @@
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:49 | get_category_from_json() | "START getting list of categories from json file"
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:13 | get_product_from_json() | "START getting list of products from json file"
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:20 | get_product_from_json() | "open file: C:/Users/suska/PycharmProjects/E_commerce_project/data/products.json"
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:43 | get_product_from_json() | "START getting list of products from json file"
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:59 | get_category_from_json() | "open file: C:/Users/suska/PycharmProjects/E_commerce_project/data/products.json"
+[2026-05-29 19:25:11,693] | INFO | utils | utils.py:80 | get_category_from_json() | "END getting list of categories from json file"

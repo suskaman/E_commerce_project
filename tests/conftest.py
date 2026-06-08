@@ -1,6 +1,6 @@
 import pytest
 
-from src.catalog import Product, Category
+from src.catalog import Category, Product
 
 
 @pytest.fixture()
@@ -11,16 +11,19 @@ def samsung_product():
 
 
 @pytest.fixture()
+def iphone_product():
+    return Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+
+
+@pytest.fixture()
+def new_product():
+    return Product.new_product()
+
+
+@pytest.fixture()
 def samsung_category(samsung_product):
     return Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [
-            {
-                "name": "Samsung Galaxy C23 Ultra",
-                "description": "256GB, Серый цвет, 200MP камера",
-                "price": 180000.0,
-                "quantity": 5,
-            }
-        ],
+        [samsung_product],
     )
