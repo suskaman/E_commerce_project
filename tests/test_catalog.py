@@ -29,7 +29,7 @@ def test_init_category(samsung_category, samsung_product):
     )
     assert (
         samsung_category.products
-        == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+        == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n"
     )
     assert samsung_category.product_count == 1
     assert samsung_category.category_count == 1
@@ -89,3 +89,24 @@ def test_price_setter_reject_lower_price(mocker, samsung_product):
     samsung_product.price = 70000
 
     assert samsung_product.price == 180000.0
+
+#
+# str(product)
+#
+
+def test_str_representation_of_product(samsung_product):
+    assert str(samsung_product) == 'Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
+
+#
+# str(product)
+#
+
+def test_str_representation_of_category(samsung_category):
+    assert str(samsung_category) == 'Смартфоны, количество продуктов: 5 шт'
+
+#
+# add product
+#
+
+def test_add_products(samsung_product, iphone_product):
+    assert samsung_product + iphone_product == 180000.0 * 5 + 210000.0 * 8

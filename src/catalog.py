@@ -1,3 +1,6 @@
+from pygments.formatters import other
+
+
 class Product:
     name: str
     description: str
@@ -46,6 +49,12 @@ class Product:
             if input().lower() == "y":
                 self.__price = price
 
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        return self.price*self.quantity + other.price*other.quantity
+
 
 class Category:
     name: str
@@ -71,57 +80,17 @@ class Category:
     @property
     def products(self) -> str:
         list_products = []
-
         for product in self.__products:
-            list_products.append(
-                f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-            )
+            list_products.append(str(product) + '\n')
 
         return "\n".join(list_products)
 
+    def __str__(self):
+        count = 0
+        for product in self.__products:
+            count += product.quantity
+
+        return f"{self.name}, количество продуктов: {count} шт"
 
 if __name__ == "__main__":
-
-    product1 = Product(
-        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
-    )
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
-
-    category1 = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [product1, product2, product3],
-    )
-
-    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
-    category1.add_product(product4)
-
-    # print(category1.products)
-
-    new_product = Product.new_product(
-        {
-            "name": "Samsung Galaxy S23 Ultra",
-            "description": "256GB, Серый цвет, 200MP камера",
-            "price": 18000.0,
-            "quantity": 5,
-        }
-    )
-
-    print(new_product.name)
-    print(new_product.description)
-    print(new_product.price)
-    print(new_product.quantity)
-
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
-
-    # print(new_product.price)
-    # new_product.price = 800
-    # print(new_product.price)
-    # new_product.price = -100
-    # print(new_product.price)
-    # new_product.price = 0
-    # print(new_product.price)
+    pass
