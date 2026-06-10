@@ -1,4 +1,4 @@
-from src.catalog import Product
+from src.catalog import Category, EvenProduct, Product
 
 #
 # product
@@ -40,6 +40,22 @@ def test_add_product(samsung_category, iphone_product):
 
     assert iphone_product.category == samsung_category
     assert "Iphone 15" in samsung_category.products
+
+
+#
+# EvenProduct
+#
+
+
+def test_EvenProduct(samsung_product, iphone_product):
+    category = Category("смартфоны", "смартфоны", [samsung_product, iphone_product])
+    list_of_products = []
+    for product in EvenProduct(category):
+        list_of_products.append(product)
+    assert list_of_products == [
+        "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.",
+        "Iphone 15, 210000.0 руб. Остаток: 8 шт.",
+    ]
 
 
 #
@@ -89,3 +105,32 @@ def test_price_setter_reject_lower_price(mocker, samsung_product):
     samsung_product.price = 70000
 
     assert samsung_product.price == 180000.0
+
+
+#
+# str(product)
+#
+
+
+def test_str_representation_of_product(samsung_product):
+    assert (
+        str(samsung_product) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+    )
+
+
+#
+# str(product)
+#
+
+
+def test_str_representation_of_category(samsung_category):
+    assert str(samsung_category) == "Смартфоны, количество продуктов: 5 шт"
+
+
+#
+# add product
+#
+
+
+def test_add_products(samsung_product, iphone_product):
+    assert samsung_product + iphone_product == 180000.0 * 5 + 210000.0 * 8
