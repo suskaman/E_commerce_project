@@ -1,6 +1,3 @@
-from pygments.formatters import other
-
-
 class Product:
     name: str
     description: str
@@ -53,7 +50,7 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.price*self.quantity + other.price*other.quantity
+        return self.price * self.quantity + other.price * other.quantity
 
 
 class Category:
@@ -81,7 +78,7 @@ class Category:
     def products(self) -> str:
         list_products = []
         for product in self.__products:
-            list_products.append(str(product) + '\n')
+            list_products.append(str(product))
 
         return "\n".join(list_products)
 
@@ -91,6 +88,26 @@ class Category:
             count += product.quantity
 
         return f"{self.name}, количество продуктов: {count} шт"
+
+
+class EvenProduct:
+
+    def __init__(self, category):
+        self.category = category
+
+    def __iter__(self):
+        self.id = -1
+        return self
+
+    def __next__(self):
+        list_of_products = self.category.products.split("\n")
+
+        if self.id + 1 < len(list_of_products):
+            self.id += 1
+            return list_of_products[self.id]
+        else:
+            raise StopIteration
+
 
 if __name__ == "__main__":
     pass

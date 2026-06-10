@@ -25,19 +25,15 @@ def get_data_from_json(file_name: str) -> tuple:
         list_of_product = []
         list_of_category = []
         for category in data:
-            cat = Category(
-                category["name"],
-                category["description"],
-                []
-            )
+            cat = Category(category["name"], category["description"], [])
 
             for product in category["products"]:
                 prod = Product(
-                                product["name"],
-                                product["description"],
-                                product["price"],
-                                product["quantity"],
-                                cat
+                    product["name"],
+                    product["description"],
+                    product["price"],
+                    product["quantity"],
+                    cat,
                 )
 
                 list_of_product.append(prod)
@@ -61,7 +57,7 @@ def get_data_from_json(file_name: str) -> tuple:
 if __name__ == "__main__":
     setup_logging()
 
-    categories, products = get_product_from_json(
+    categories, products = get_data_from_json(
         "C:/Users/suska/PycharmProjects/E_commerce_project/data/products.json"
     )
 
