@@ -50,7 +50,9 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.price * self.quantity + other.price * other.quantity
+        if type(self) == type(other):
+            return self.price * self.quantity + other.price * other.quantity
+        raise TypeError
 
 
 class Category:
@@ -70,9 +72,12 @@ class Category:
             product.category = self
 
     def add_product(self, product) -> None:
-        self.__products.append(product)
-        product.category = self
-        Category.category_count += 1
+        if isinstance(product, Product):
+            self.__products.append(product)
+            product.category = self
+            Category.product_count += 1
+        else:
+            raise TypeError
 
     @property
     def products(self) -> str:
@@ -107,6 +112,35 @@ class EvenProduct:
             return list_of_products[self.id]
         else:
             raise StopIteration
+
+
+class Smartphone(Product):
+    efficiency: float
+    model: str
+    memory: int
+    color: str
+
+    def __init__(
+        self, name, description, price, quantity, efficiency, model, memory, color
+    ) -> None:
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    germination_period: str
+    color: str
+
+    def __init__(
+        self, name, description, price, quantity, country, germination_period, color
+    ) -> None:
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
 
 
 if __name__ == "__main__":
