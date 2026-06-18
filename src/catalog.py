@@ -36,6 +36,7 @@ class BaseProduct(ABC):
     def __repr__(self):
         pass
 
+
 class MixinLog:
 
     def __init__(self, *args, **kwargs):
@@ -104,6 +105,7 @@ class Product(MixinLog, BaseProduct):
             f"{self.price}, {self.quantity})"
         )
 
+
 class EvenProduct:
 
     def __init__(self, category):
@@ -129,7 +131,9 @@ class Smartphone(Product):
     memory: int
     color: str
 
-    def __init__(self, name, description, price, quantity, efficiency, model, memory, color) -> None:
+    def __init__(
+        self, name, description, price, quantity, efficiency, model, memory, color
+    ) -> None:
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
@@ -141,7 +145,9 @@ class LawnGrass(Product):
     germination_period: str
     color: str
 
-    def __init__(self, name, description, price, quantity, country, germination_period, color) -> None:
+    def __init__(
+        self, name, description, price, quantity, country, germination_period, color
+    ) -> None:
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
@@ -194,9 +200,8 @@ class Category(MixinLog, BaseEntity):
 
     def __repr__(self):
         products = [product.name for product in self.__products]
-        return (
-            f"{self.__class__.__name__}('{self.name}', {products})"
-        )
+        return f"{self.__class__.__name__}('{self.name}', {products})"
+
 
 class Order(MixinLog, BaseEntity):
     product: Product
@@ -204,18 +209,18 @@ class Order(MixinLog, BaseEntity):
     total_price: float
 
     def __init__(self, product, quantity) -> None:
-        self.product =  product
+        self.product = product
         self.quantity = quantity
-        self.total_price = quantity*product.price
+        self.total_price = quantity * product.price
         super().__init__(product, quantity)
 
     def __str__(self):
-        return f"Заказ на {self.product.name} в количестве {self.quantity}шт. общей стоимостью в {self.total_price}руб."
+        return (f"Заказ на {self.product.name} в количестве {self.quantity}шт."
+                f" общей стоимостью в {self.total_price}руб.")
 
     def __repr__(self):
-        return (
-            f"{self.__class__.__name__}('{self.product.name}', '{self.quantity}', '{self.total_price}')"
-        )
+        return f"{self.__class__.__name__}('{self.product.name}', '{self.quantity}', '{self.total_price}')"
+
 
 if __name__ == "__main__":
     pass

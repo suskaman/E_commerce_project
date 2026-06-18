@@ -95,16 +95,7 @@ def test_str_representation_of_product(samsung_product):
 
 
 #
-# str(product)
-#
-
-
-def test_str_representation_of_category(samsung_category):
-    assert str(samsung_category) == "Смартфоны, количество продуктов: 5 шт"
-
-
-#
-# __add__ product
+# product1 + product2
 #
 
 
@@ -113,43 +104,6 @@ def test_add_products(smartphone_samsung, smartphone_xiaomi, lawngrass_grass):
 
     with pytest.raises(TypeError):
         smartphone_xiaomi + lawngrass_grass
-
-
-# -----------------
-# category
-# -----------------
-
-
-def test_init_category(samsung_category, samsung_product):
-    assert samsung_category.name == "Смартфоны"
-    assert (
-        samsung_category.description
-        == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
-    )
-    assert (
-        samsung_category.products
-        == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
-    )
-    assert samsung_category.product_count == 1
-    assert samsung_category.category_count == 3
-
-
-#
-# add_product in category
-#
-
-
-def test_add_product_to_category(samsung_category, smartphone_xiaomi, lawngrass_grass):
-    samsung_category.add_product(smartphone_xiaomi)
-    assert smartphone_xiaomi.category == samsung_category
-    assert "Xiaomi Redmi Note 11" in samsung_category.products
-
-    samsung_category.add_product(lawngrass_grass)
-    assert lawngrass_grass.category == samsung_category
-    assert "Газонная трава" in samsung_category.products
-
-    with pytest.raises(TypeError):
-        samsung_category.add_product("Not a product")
 
 
 # -----------------
@@ -181,3 +135,72 @@ def test_init_lawngrass(lawngrass_grass):
     assert lawngrass_grass.country == "Россия"
     assert lawngrass_grass.germination_period == "7 дней"
     assert lawngrass_grass.color == "Зеленый"
+
+
+# -----------------
+# category
+# -----------------
+
+
+def test_init_category(samsung_category, samsung_product):
+    assert samsung_category.name == "Смартфоны"
+    assert (
+        samsung_category.description
+        == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
+    )
+    assert (
+        samsung_category.products
+        == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+    )
+    assert samsung_category.product_count == 1
+    assert samsung_category.category_count == 2
+
+
+#
+# add_product in category
+#
+
+
+def test_add_product_to_category(samsung_category, smartphone_xiaomi, lawngrass_grass):
+    samsung_category.add_product(smartphone_xiaomi)
+    assert smartphone_xiaomi.category == samsung_category
+    assert "Xiaomi Redmi Note 11" in samsung_category.products
+
+    samsung_category.add_product(lawngrass_grass)
+    assert lawngrass_grass.category == samsung_category
+    assert "Газонная трава" in samsung_category.products
+
+    with pytest.raises(TypeError):
+        samsung_category.add_product("Not a product")
+
+
+#
+# str(category)
+#
+
+
+def test_str_representation_of_category(samsung_category):
+    assert str(samsung_category) == "Смартфоны, количество продуктов: 5 шт"
+
+
+# -----------------
+# order
+# -----------------
+
+
+def test_init_order(order_on_smartphone):
+    assert order_on_smartphone.product.name == "Samsung Galaxy S23 Ultra"
+    assert order_on_smartphone.quantity == 3
+    assert order_on_smartphone.total_price == 540000.0
+
+
+#
+# str(order)
+#
+
+
+def test_str_representation_of_order(order_on_smartphone):
+    assert (
+        str(order_on_smartphone)
+        == "Заказ на Samsung Galaxy S23 Ultra в количестве 3шт. общей стоимостью в 540000.0руб."
+    )

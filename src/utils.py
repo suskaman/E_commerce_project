@@ -51,7 +51,7 @@ def get_data_from_json(file_name: str) -> tuple:
         return ()
 
     finally:
-        utils_logger.info("START getting list of products from json file")
+        utils_logger.info("END getting list of products from json file")
 
 
 if __name__ == "__main__":
