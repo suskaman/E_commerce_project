@@ -35,7 +35,9 @@ Module **conftest.py** has a fixtures for test modules.
 
 * There are tests for the module **'catalog.py'** in the module **'test_catalog.py'**.
 A correct work of classes **'Product'** and **'Category'** is checked with **'pytest.fixture'**.
+A correct work of classes **'Smartphone'** and **'LawnGrass'** is checked with **'pytest.fixture'**.
 For more information look at the **tests/test_catalog.py**
+
 
 * There are tests for the module **'utils.py'** in the module **'test_utils.py'**.
 A correct work of functions **'get_category_from_json'** and **'get_product_from_json'** is checked for type and emptiness.
