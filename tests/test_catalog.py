@@ -34,6 +34,11 @@ def test_product_added_to_list(samsung_product):
     assert samsung_product in Product.list_of_products
 
 
+def test_empty_product(samsung_product):
+    with pytest.raises(ValueError):
+        Product("empty", "empty", 1111, 0)
+
+
 #
 # new_product
 #
@@ -172,6 +177,22 @@ def test_add_product_to_category(samsung_category, smartphone_xiaomi, lawngrass_
 
     with pytest.raises(TypeError):
         samsung_category.add_product("Not a product")
+
+
+#
+# add_product in category
+#
+
+
+def test_middle_price(samsung_category, smartphone_xiaomi):
+    samsung_category.add_product(smartphone_xiaomi)
+    assert samsung_category.middle_price() == 70210.53
+
+
+def test_middle_price_zero_division_error():
+    """for zero division error must return 0"""
+    category = Category("Пустая категория", "Категория без продуктов", [])
+    assert category.middle_price() == 0
 
 
 #
