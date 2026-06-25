@@ -16,11 +16,6 @@ def iphone_product():
 
 
 @pytest.fixture()
-def new_product():
-    return Product.new_product()
-
-
-@pytest.fixture()
 def samsung_category(samsung_product):
     return Category(
         "Смартфоны",

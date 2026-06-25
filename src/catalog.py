@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from exceptions.product_error import ProductEmptyError
+
 
 class BaseProduct(ABC):
     name: str
@@ -50,6 +52,9 @@ class Product(MixinLog, BaseProduct):
     category: Category
 
     def __init__(self, name, description, price, quantity, category=None) -> None:
+        if quantity <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен.")
+
         self.name = name
         self.description = description
         self.__price = price
@@ -183,12 +188,38 @@ class Category(MixinLog, BaseEntity):
             product.category = self
 
     def add_product(self, product) -> None:
-        if isinstance(product, Product):
-            self.__products.append(product)
-            product.category = self
-            Category.product_count += 1
+        try:
+            if isinstance(product, Product):
+                if product.quantity == 0:
+                    raise ProductEmptyError(
+                        "Нельзя добавлять товар с нулевым количеством"
+                    )
+
+                self.__products.append(product)
+                product.category = self
+                Category.product_count += 1
+
+            else:
+                raise TypeError
+
+        except ProductEmptyError as e:
+            print(e)
         else:
-            raise TypeError
+            print(f"товар '{product.name}' добавлен в категорию '{self.name}'")
+        finally:
+            print("обработка добавления товара завершена")
+
+    def middle_price(self):
+        try:
+            total_cost = sum(
+                product.price * product.quantity for product in self.__products
+            )
+            total_quantity = sum(product.quantity for product in self.__products)
+            middle_price = round(total_cost / total_quantity, 2)
+            return middle_price
+
+        except ZeroDivisionError:
+            return 0
 
     @property
     def products(self) -> str:
@@ -209,14 +240,27 @@ class Order(MixinLog, BaseEntity):
     total_price: float
 
     def __init__(self, product, quantity) -> None:
-        self.product = product
-        self.quantity = quantity
-        self.total_price = quantity * product.price
-        super().__init__(product, quantity)
+        try:
+            if product.quantity == 0:
+                raise ProductEmptyError("Нельзя добавлять товар с нулевым количеством")
+
+            self.product = product
+            self.quantity = quantity
+            self.total_price = quantity * product.price
+            super().__init__(product, quantity)
+
+        except ProductEmptyError as e:
+            print(e)
+        else:
+            print(f"создан заказ на товар '{product.name}'")
+        finally:
+            print("обработка добавления товара завершена")
 
     def __str__(self):
-        return (f"Заказ на {self.product.name} в количестве {self.quantity}шт."
-                f" общей стоимостью в {self.total_price}руб.")
+        return (
+            f"Заказ на {self.product.name} в количестве {self.quantity}шт."
+            f" общей стоимостью в {self.total_price}руб."
+        )
 
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.product.name}', '{self.quantity}', '{self.total_price}')"
