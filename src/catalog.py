@@ -1,7 +1,51 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
     name: str
     description: str
     quantity: int
+
+    @abstractmethod
+    def __init__(self, name, description, price, quantity) -> None:
+        pass
+
+    @abstractmethod
+    def new_product(self, n_product) -> Product:
+        pass
+
+    @property
+    @abstractmethod
+    def price(self) -> float | int:
+        pass
+
+    @price.setter
+    @abstractmethod
+    def price(self, price) -> None:
+        pass
+
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+    @abstractmethod
+    def __repr__(self):
+        pass
+
+
+class MixinLog:
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        print(f"Создан объект: {self!r}")
+
+
+class Product(MixinLog, BaseProduct):
+
     list_of_products: list = []
     category: Category
 
@@ -12,6 +56,7 @@ class Product:
         self.quantity = quantity
         self.category = category
         Product.list_of_products.append(self)
+        super().__init__(name, description, price, quantity)
 
     @classmethod
     def new_product(cls, n_product) -> Product:
@@ -54,45 +99,11 @@ class Product:
             return self.price * self.quantity + other.price * other.quantity
         raise TypeError
 
-
-class Category:
-    name: str
-    description: str
-    category_count: int = 0
-    product_count: int
-
-    def __init__(self, name, description, products) -> None:
-        self.name = name
-        self.description = description
-        self.__products = products
-        Category.product_count = len(self.__products)
-        Category.category_count += 1
-
-        for product in self.__products:
-            product.category = self
-
-    def add_product(self, product) -> None:
-        if isinstance(product, Product):
-            self.__products.append(product)
-            product.category = self
-            Category.product_count += 1
-        else:
-            raise TypeError
-
-    @property
-    def products(self) -> str:
-        list_products = []
-        for product in self.__products:
-            list_products.append(str(product))
-
-        return "\n".join(list_products)
-
-    def __str__(self):
-        count = 0
-        for product in self.__products:
-            count += product.quantity
-
-        return f"{self.name}, количество продуктов: {count} шт"
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}('{self.name}', '{self.description}', "
+            f"{self.price}, {self.quantity})"
+        )
 
 
 class EvenProduct:
@@ -141,6 +152,74 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
         self.color = color
+
+
+class BaseEntity(ABC):
+    def __init__(self, *args, **kwargs) -> None:
+        pass
+
+    def __str__(self):
+        pass
+
+    def __repr__(self):
+        pass
+
+
+class Category(MixinLog, BaseEntity):
+    name: str
+    description: str
+    category_count: int = 0
+    product_count: int
+
+    def __init__(self, name, description, products) -> None:
+        self.name = name
+        self.description = description
+        self.__products = products
+        Category.product_count = len(self.__products)
+        Category.category_count += 1
+        super().__init__(name, description, products)
+
+        for product in self.__products:
+            product.category = self
+
+    def add_product(self, product) -> None:
+        if isinstance(product, Product):
+            self.__products.append(product)
+            product.category = self
+            Category.product_count += 1
+        else:
+            raise TypeError
+
+    @property
+    def products(self) -> str:
+        return "\n".join(str(product) for product in self.__products)
+
+    def __str__(self):
+        count = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {count} шт"
+
+    def __repr__(self):
+        products = [product.name for product in self.__products]
+        return f"{self.__class__.__name__}('{self.name}', {products})"
+
+
+class Order(MixinLog, BaseEntity):
+    product: Product
+    quantity: int
+    total_price: float
+
+    def __init__(self, product, quantity) -> None:
+        self.product = product
+        self.quantity = quantity
+        self.total_price = quantity * product.price
+        super().__init__(product, quantity)
+
+    def __str__(self):
+        return (f"Заказ на {self.product.name} в количестве {self.quantity}шт."
+                f" общей стоимостью в {self.total_price}руб.")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.product.name}', '{self.quantity}', '{self.total_price}')"
 
 
 if __name__ == "__main__":

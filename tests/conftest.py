@@ -1,6 +1,6 @@
 import pytest
 
-from src.catalog import Category, LawnGrass, Product, Smartphone
+from src.catalog import Category, LawnGrass, Order, Product, Smartphone
 
 
 @pytest.fixture()
@@ -68,3 +68,8 @@ def smartphone_samsung():
         256,
         "Серый",
     )
+
+
+@pytest.fixture()
+def order_on_smartphone(samsung_product):
+    return Order(samsung_product, 3)
